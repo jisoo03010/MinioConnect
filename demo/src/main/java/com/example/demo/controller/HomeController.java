@@ -51,5 +51,17 @@ public class HomeController {
 	public Iterable<Result<Item>> objectList(@RequestBody String BucketName) throws Exception {
 		return minIOServiceImpl.objectList(BucketName);
     }
+	@ResponseBody
+	@RequestMapping(value = "/objectMake", method = { RequestMethod.GET })
+	public String objectMake(@RequestBody String bucketName,@RequestBody  String objectName,@RequestBody String fileName) throws Exception {
+		return minIOServiceImpl.objectMake( bucketName, objectName, fileName);
+    }
+
+
+	@ResponseBody
+	@RequestMapping(value = "/objectRemove", method = { RequestMethod.GET })
+	public String objectRemove(@RequestBody String BucketName, @RequestBody  String objectName) throws Exception {
+		return minIOServiceImpl.objectRemove(BucketName,objectName);
+    }
 	
 }

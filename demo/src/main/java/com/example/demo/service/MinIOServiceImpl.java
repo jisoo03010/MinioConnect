@@ -6,13 +6,17 @@ import org.springframework.stereotype.Service;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 import java.util.ArrayList;
 
+import io.minio.BucketExistsArgs;
 import io.minio.ListObjectsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.RemoveBucketArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.Result;
+import io.minio.UploadObjectArgs;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
+
 
 import java.lang.String;
 import java.util.List; 
@@ -64,5 +68,22 @@ public class MinIOServiceImpl implements MinIOService {
        Iterable<Result<Item>> results = minioClient.listObjects(
             ListObjectsArgs.builder().bucket(bucketName).build());
         return results;
+    }
+    @Override
+    public String objectMake(String bucketName,String objectName,String fileName) throws Exception {
+        MinioClient minioClient = getMinioClient();
+        minioClient.uploadObject(
+        UploadObjectArgs.builder()
+            .bucket(bucketName).object(objectName).filename(fileName).build());
+    // UploadObjectArgs.builder()
+    //     .bucket("my-bucketname").object("my-objectname").filename("person.json").build());
+        return "성공적으로 " + bucketName +"에 "+objectName+ "가 업로드 되었습니다. ";
+    }
+    @Override
+    public String objectRemove(String bucketName,String objectName) throws Exception {
+        MinioClient minioClient = getMinioClient();
+        minioClient.removeObject(
+        RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
+        return "성공적으로 삭제되었습니다.";
     }
 }

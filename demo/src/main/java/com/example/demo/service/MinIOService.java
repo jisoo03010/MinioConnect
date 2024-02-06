@@ -19,4 +19,6 @@ public interface MinIOService {
 
     // object 관련 
     Iterable<Result<Item>> objectList(String bucketName) throws Exception;
+    String objectMake(String bucketName,String objectName,String fileName) throws Exception;
+    String objectRemove(String bucketName,String objectName) throws Exception;
 }
